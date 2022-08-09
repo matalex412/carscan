@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1020348265316",
+    "project_id": "car-catcher-664ba",
+    "storage_bucket": "car-catcher-664ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020348265316:android:c62a7d38fab8c030bd4071",
+        "android_client_info": {
+          "package_name": "com.carscan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020348265316-pr9lbh1spu595o2ad9pa23c7iu2jlbnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTNZCY-Nq8Hdr81VOyLm_0rIv8WXLeRsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020348265316-pr9lbh1spu595o2ad9pa23c7iu2jlbnn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
