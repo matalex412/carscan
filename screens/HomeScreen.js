@@ -62,10 +62,6 @@ export default class HomeScreen extends React.Component {
 				) : (
 					<ActivityIndicator color="black" />
 				)}
-
-				<TouchableOpacity style={{padding: 10}} onPress={this.setup}>
-					<Text>Reload</Text>
-				</TouchableOpacity>
 			</View>
 		);
 	}
