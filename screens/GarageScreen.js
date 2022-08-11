@@ -1,7 +1,15 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	ScrollView,
+	TouchableOpacity,
+	Alert,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import DeviceInfo from 'react-native-device-info';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class GarageScreen extends React.Component {
 	componentDidMount = () => {
@@ -13,6 +21,8 @@ export default class GarageScreen extends React.Component {
 	};
 
 	setup = async () => {
+		const onboarded = await AsyncStorage.getItem('ONBOARDED');
+		console.log(onboarded);
 		const id = await DeviceInfo.getUniqueId();
 		let doc = await firestore().collection('Users').doc(id).get();
 		if (doc.exists) {
@@ -28,27 +38,48 @@ export default class GarageScreen extends React.Component {
 		}
 	};
 
+	showCar = carId => {
+		let car = this.state.cars[carId];
+		Alert.alert('Your Car', `This is a ${car.make} ${car.model}`);
+		// todo show modal with stats
+	};
+
 	render() {
 		return (
-			<View style={styles.backgroundStyle}>
-				{Object.keys(this.state.cars).map(carId => {
-					let car = this.state.cars[carId];
-					return (
-						<Text key={carId}>
-							{car.make} {car.model}
-						</Text>
-					);
-				})}
-			</View>
+			<ScrollView contentContainerStyle={styles.container}>
+				{this.state.cars.length > 0 ? (
+					Object.keys(this.state.cars).map(carId => {
+						let car = this.state.cars[carId];
+						return (
+							<TouchableOpacity
+								onPress={() => this.showCar(carId)}
+								key={carId}
+								style={styles.carThumbnail}
+							/>
+						);
+					})
+				) : (
+					<View>
+						<Text>You haven't bought any cars yet!</Text>
+					</View>
+				)}
+			</ScrollView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	backgroundStyle: {
+	container: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		flex: 1,
+		flexGrow: 1,
 		backgroundColor: 'white',
+	},
+	carThumbnail: {
+		width: '80%',
+		height: 100,
+		backgroundColor: 'lightgrey',
+		borderRadius: 5,
+		margin: 10,
 	},
 });

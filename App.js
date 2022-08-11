@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContainer from './AppNavigator';
 
 const App = () => {
-  const [onboarded, setOnboarded] = useState();
+  const [onboarded, setOnboarded] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getStorage();
@@ -14,9 +15,10 @@ const App = () => {
   const getStorage = async () => {
     const onboarded = await AsyncStorage.getItem('ONBOARDED');
     setOnboarded(JSON.parse(onboarded));
+    setLoading(false);
   };
 
-  return <AppContainer onboarded={onboarded} />;
+  return <AppContainer loading={loading} onboarded={onboarded} />;
 };
 
 export default App;

@@ -3,9 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import {ActivityIndicator} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CameraScreen from './screens/CameraScreen';
-import HomeScreen from './screens/HomeScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import Showroom from './screens/Showroom';
 import GarageScreen from './screens/GarageScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
@@ -39,23 +40,26 @@ function AppTabs() {
 			<Tab.Screen name="Camera" component={CameraScreen} />
 			<Tab.Screen name="Garage" component={GarageScreen} />
 			<Tab.Screen name="Shop" component={Showroom} />
-			<Tab.Screen name="Profile" component={HomeScreen} />
+			<Tab.Screen name="Profile" component={ProfileScreen} />
 		</Tab.Navigator>
 	);
 }
 
-const AppContainer = ({onboarded}) => {
-	console.log(onboarded);
+const AppContainer = ({loading, onboarded}) => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				initialRouteName={onboarded ? 'Home' : 'Onboarding'}
-				screenOptions={() => ({
-					headerShown: false,
-				})}>
-				<Stack.Screen name="Home" component={AppTabs} />
-				<Stack.Screen name="Onboarding" component={OnboardingScreen} />
-			</Stack.Navigator>
+			{loading ? (
+				<ActivityIndicator size="large" />
+			) : (
+				<Stack.Navigator
+					initialRouteName={!onboarded ? 'Home' : 'Onboarding'}
+					screenOptions={() => ({
+						headerShown: false,
+					})}>
+					<Stack.Screen name="Home" component={AppTabs} />
+					<Stack.Screen name="Onboarding" component={OnboardingScreen} />
+				</Stack.Navigator>
+			)}
 		</NavigationContainer>
 	);
 };

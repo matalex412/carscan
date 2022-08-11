@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component {
 				await this.setState({makesCaptured: data.makesCaptured});
 				this.setState({ready: true});
 			});
-
+		this.setState({ready: true});
 		this.setState({makesCapturedRef: subscriber});
 	};
 
@@ -50,28 +50,60 @@ export default class HomeScreen extends React.Component {
 	render() {
 		let makes = Object.keys(this.state.makesCaptured);
 		return (
-			<View style={styles.container}>
+			<ScrollView contentContainerStyle={styles.container}>
 				{this.state.ready ? (
-					makes.map((make, id) => {
-						return (
-							<Text key={id}>
-								{make} - {this.state.makesCaptured[make]}
-							</Text>
-						);
-					})
+					makes.length > 0 ? (
+						makes.map((make, id) => {
+							return (
+								<View style={styles.makeView} key={id}>
+									<View style={styles.logo} />
+									<View style={styles.statsView}>
+										<Text>{make}</Text>
+										<Text>Collected: {this.state.makesCaptured[make]}</Text>
+										<Text>Value: 10 Coins</Text>
+									</View>
+								</View>
+							);
+						})
+					) : (
+						<View>
+							<Text>You haven't captured any cars yet!</Text>
+						</View>
+					)
 				) : (
 					<ActivityIndicator color="black" />
 				)}
-			</View>
+			</ScrollView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flexGrow: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
+		padding: 20,
+	},
+	makeView: {
+		borderRadius: 5,
+		width: '90%',
+		padding: 10,
+		flexDirection: 'row',
+		elevation: 1,
+		backgroundColor: 'white',
+		margin: 5,
+	},
+	logo: {
+		width: 100,
+		height: 100,
+		borderRadius: 3,
+		backgroundColor: 'lightgrey',
+	},
+	statsView: {
+		justifyContent: 'center',
+		paddingHorizontal: 10,
+		marginLeft: 10,
 	},
 });

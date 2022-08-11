@@ -17,15 +17,14 @@ export default class CoinCount extends React.Component {
     const id = await DeviceInfo.getUniqueId();
 
     if (id) {
-      var coinRef = await firebase
-        .firestore()
+      var coinRef = await firestore()
         .collection('Users')
         .doc(id)
         .onSnapshot(doc => {
-          var data = doc.data();
-          if (data) {
-            if (data.count) {
-              this.setState({coins: data.count});
+          if (doc.exists) {
+            var data = doc.data();
+            if (data.coins) {
+              this.setState({coins: data.coins});
             }
           }
         });
@@ -43,16 +42,15 @@ export default class CoinCount extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={this.props.style}>
         <View
           style={{
             justifyContent: 'center',
             flexDirection: 'row',
             alignItems: 'center',
-            marginLeft: 15,
           }}>
           <Ionicons name="md-cash-outline" size={30} color="black" />
-          <Text style={{fontSize: 20, color: '#fff'}}>{this.state.stars}</Text>
+          <Text style={{marginLeft: 5}}>{this.state.coins}</Text>
         </View>
       </View>
     );
